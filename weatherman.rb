@@ -1,10 +1,38 @@
 require 'csv'
+def cal_avg_high_temp(objects)
+    avg = 0
+    sum = 0
+    len = objects.length
+    for obj in objects
+        sum = sum + obj[1].to_i
+    end
+    avg = sum/len
+    return avg
+    puts "Avg #{avg}" 
+end
 
-filenames_Dubai = Dir.chdir("/home/ahsan/Projetcs/WeatherMan/Dubai_weather") { Dir.entries(".") }
-# puts filenames_Dubai
-# filenames_Murree = Dir.chdir("/home/abdullah126/Desktop/project2/Weather man-20220810T060630Z-001/Weather man/Murree_weather") { Dir.entries(".") }
-# filenames_lahore = Dir.chdir("/home/abdullah126/Desktop/project2/Weather man-20220810T060630Z-001/Weather man/lahore_weather") { Dir.entries(".") }
+def cal_avg_low_temp(objects)
+    avg = 0
+    sum = 0
+    len = objects.length
+    for obj in objects
+        sum = sum + obj[1].to_i
+    end
+    avg = sum/len
+    return avg
+    puts "Avg #{avg}" 
+end
 
+def avg_humid(objects)
+    avg = 0
+    sum = 0
+    len = objects.length
+    for obj in objects
+        sum = sum + obj[7].to_i
+    end
+    return avg = sum/len
+
+end
 def max_temp(objects)
     max = 0
     date = ''
@@ -16,74 +44,104 @@ def max_temp(objects)
     end
     return max
 end
-def date_check()
-
-cities = ["lahore","Dubai","Murree"]
-months = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"]
-
-year = "2004"
-# puts filenames_Dubai.include?('Dubai_weather_2004_Dec.csv')
-max_arr = []
-for month in months
-    
-    file_path = "/home/ahsan/Projetcs/WeatherMan/Dubai_weather/"
-    file_name = "Dubai_weather_#{year}_#{month}.csv"
-    if filenames_Dubai.include?(file_name)
-        # max_arr = []
-        final = file_path<< file_name 
-        # puts final
-        objects = CSV.parse(File.read(final),headers: true)
-        max_arr << max_temp(objects)
-        ##########################################################
-
+def min_temp(objects)
+    min = 2000
+    date = ''
+    for obj in objects
+        if obj[3].to_i <= min.to_i
+            min = obj[3]
+            date = obj[0]
+        end
     end
-    
-end
-puts "highest temp is: #{max_arr.max()}"
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# year = '2004'
-# file_name_dubai = "Dubai_weather/Dubai_weather_" + year 
-# files = Dir.glob('Dubai_weather/**/*').select { |path| File.file?(path) }
-# if files[0] == 'Dubai_weather/Dubai_weather_2004'
-#     puts'in loop'
-# end
-
-
-# def min_temp(objects)
-#     min = 2000
-#     date = ''
-#     for obj in objects
-#         if obj[3].to_i <= min.to_i
-#             min = obj[3]
-#             date = obj[0]
-#         end
-#     end
+    return min
 # puts "Min temp is #{min} on #{date} "
+end
+def check_month(month)
+    if month == '1'
+        puts "in if"
+        month = 'Jan'
+        # puts "#{month}"
+    elsif month == '2'
+        month = 'Feb'
+    elsif month == '3'
+        month = 'Mar'
+    elsif month == '4'
+        month = 'Apr'
+    elsif month == '5'
+        month = 'May'
+    elsif month == '6'
+        month = 'Jun'
+    elsif month == '7'
+        month = 'Jul'
+    elsif month == '8'
+        month = 'Aug'
+    elsif month == '9'
+        month = 'Sep'
+    elsif month == '10'
+        month = 'Oct'
+    elsif month == '11'
+        month = 'Nov'
+    elsif month == '12'
+        month = 'Dec'
+    end
+    return month
+end
+
+
+max_arr = []
+min_arr = []
+
+task_option = ARGV[0]
+year = ARGV[1]
+month = ARGV[2]
+user_path = ARGV[3]
+##################whic tsk to run
+# if task_option == '-a'
+    
 # end
-# def max_humid(objects)
-#     max = 0
-#     date = ''
-#     for obj in objects
-#         if obj[7].to_i >= max.to_i
-#             max = obj[7]
-#             date = obj[0]
-#         end
-#     end
-# puts "Max humid day is #{max}% on #{date} "
+
+year = ARGV[1]
+month =ARGV[2]
+path = ARGV[3]
+# puts path
+path2 = path.split("/")
+city_name = path2[5]
+# puts city_name
+month = check_month(month)
+file_name = "/#{city_name}_#{year}_#{month}.txt"
+
+final = path + file_name
+puts final
+objects = CSV.parse(File.read(final),headers: true)
+avg << cal_avg_high_temp(objects)
+avg << cal_avg_low_temp(objects)
+avg_humid<<avg_humid(objects)
+
+        
+        # final = file_path<< file_name
+        
+        
+        # puts "in if"
+        # max_arr << max_temp(objects)
+        # puts max_arr.max
+        # date << date_check(objects,'29')
+        #####Check Min ############
+        # min_arr << min_temp(objects)
+        # puts min_arr.min
+        # date << date_check(objects,'0')
+        ##########################################################
+        
+    
 # end
-# max_temp(objects)
-# min_temp(objects)
-# max_humid(objects)
+# puts avg_humid
+l = avg_humid.length
+puts "Max Avg is:#{avg.max}C"
+puts "Min Avg is:#{avg.min}C"
+sum = 0
+for i in avg_humid
+    sum = sum + i
+end
+avg_h = sum/l
+puts "Humid is:#{avg_h}%"
+# puts "highest temp is: #{max_arr.max()} on #{date[0]}"
+# puts "MIn temp is: #{min_arr.min} on #{date[0]}"

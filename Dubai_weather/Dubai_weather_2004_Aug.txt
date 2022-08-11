@@ -30,3 +30,4 @@ GST,Max TemperatureC,Mean TemperatureC,Min TemperatureC,Dew PointC,MeanDew Point
 2004-8-29,,,44,,,,,,,,,,,,,,,,,,,
 2004-8-30,,,34,,,,,,,,,,,,,,,,,,,
 2004-8-31,,,23,,,,,,,,,,,,,,,,,,,
+,,,0,,,,,,,,,,,,,,,,,,,
